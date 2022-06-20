@@ -1,7 +1,5 @@
 package elements
 
-type ContentList []interface{}
-
 type P struct {
 	Content    ContentList
 	Attributes map[string]string

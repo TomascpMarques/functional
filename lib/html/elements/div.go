@@ -1,31 +1,31 @@
 package elements
 
-type Div struct {
+type DIV struct {
 	Content    ContentList
 	Attributes map[string]string
 }
 
-func NewDiv(content ...interface{}) *Div {
-	return &Div{content, make(map[string]string)}
+func NewDIV(content ...interface{}) *DIV {
+	return &DIV{content, make(map[string]string)}
 }
 
-func (d *Div) PushNewElement(e Element) Element {
-	d.Content = append(d.Content, e)
-	return d
+func (div *DIV) PushNewElement(e Element) Element {
+	div.Content = append(div.Content, e)
+	return div
 }
 
-func (d Div) MarkItUp() string {
-	return MarkItUpHelper("div", (*[]interface{})(&d.Content), &d.Attributes)
+func (div DIV) MarkItUp() string {
+	return MarkItUpHelper("div", (*[]interface{})(&div.Content), &div.Attributes)
 }
 
-func (d *Div) SetAttributes(attr map[string]string) Element {
+func (div *DIV) SetAttributes(attr map[string]string) Element {
 	for k, v := range attr {
-		d.Attributes[k] = v
+		div.Attributes[k] = v
 	}
-	return d
+	return div
 }
 
-func (d *Div) ReplaceContent(new Element, pos uint) Element {
-	d.Content[pos] = new
-	return d
+func (div *DIV) ReplaceContent(new Element, pos uint) Element {
+	div.Content[pos] = new
+	return div
 }

@@ -1,5 +1,7 @@
 package elements
 
+type ContentList []interface{}
+
 type Element interface {
 	MarkItUp() string
 	PushNewElement(e Element) Element
