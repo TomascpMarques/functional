@@ -2,16 +2,33 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/tomascpmarques/frontline/lib/html/elements"
+	"io/fs"
+	"io/ioutil"
+	"strings"
 )
 
 func main() {
-	lex := elements.NewP("Lorem ipsum dolor sit amet")
-	ley := elements.NewP("yesss")
-	ley.SetAttributes(map[string]string{"class": "lorem"})
+	file, err := ioutil.ReadFile("./all.txt")
+	if err != nil {
+		panic("A big error here my guy")
+	}
+	fileContent := string(file)
+	fileLines := strings.Split(fileContent, "\n")
 
-	lex.PushNewElement(ley)
-
-	fmt.Printf("-> %s", lex.MarkItUp())
+	for _, line := range fileLines {
+		ioutil.WriteFile(
+			fmt.Sprintf("./lib/html/elements/%s", line),
+			func() []byte {
+				f, err := ioutil.ReadFile("./all.txt")
+				if err != nil {
+					panic("Ai muchacho")
+				}
+				fContent := string(f)
+				fContent = strings.ReplaceAll(fContent, "#", strings.ToLower(line))
+				fContent = strings.ReplaceAll(fContent, "$", strings.ToUpper(line))
+				return []byte(fContent)
+			}(),
+			fs.ModeAppend,
+		)
+	}
 }

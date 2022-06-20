@@ -1,0 +1,33 @@
+package elements
+
+type ContentList []interface{}
+
+type $ struct {
+	Content    ContentList
+	Attributes map[string]string
+}
+
+func New$(content ...interface{}) *$ {
+	return &${content, make(map[string]string)}
+}
+
+func (# *$) PushNewElement(e Element) Element {
+	#.Content = append(#.Content, e)
+	return #
+}
+
+func (# $) MarkItUp() string {
+	return MarkItUpHelper("#", (*[]interface{})(&#.Content), &#.Attributes)
+}
+
+func (# *$) SetAttributes(attr map[string]string) Element {
+	for k, v := range attr {
+		#.Attributes[k] = v
+	}
+	return #
+}
+
+func (# *$) ReplaceContent(new Element, pos uint) Element {
+	#.Content[pos] = new
+	return #
+}

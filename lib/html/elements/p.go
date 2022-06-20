@@ -1,12 +1,5 @@
 package elements
 
-import (
-	"fmt"
-	"strings"
-
-	"github.com/tomascpmarques/frontline/lib/html/elements/helpers"
-)
-
 type ContentList []interface{}
 
 type P struct {
@@ -18,33 +11,23 @@ func NewP(content ...interface{}) *P {
 	return &P{content, make(map[string]string)}
 }
 
-func (p *P) PushNewElement(e Element) {
+func (p *P) PushNewElement(e Element) Element {
 	p.Content = append(p.Content, e)
+	return p
 }
 
 func (p P) MarkItUp() string {
-	result := fmt.Sprintf("<p>%s</p>", func() string {
-		var temp strings.Builder
-		for _, value := range p.Content {
-			if trueVal, isElement := value.(Element); isElement {
-				temp.WriteString(trueVal.MarkItUp())
-				continue
-			}
-			fmt.Fprintf(&temp, "%v", value)
-		}
-		return temp.String()
-	}())
-
-	result = helpers.SetAttributesHelper(result, `<p>`, p.Attributes)
-	return result
+	return MarkItUpHelper("p", (*[]interface{})(&p.Content), &p.Attributes)
 }
 
-func (p *P) SetAttributes(attr map[string]string) {
+func (p *P) SetAttributes(attr map[string]string) Element {
 	for k, v := range attr {
 		p.Attributes[k] = v
 	}
+	return p
 }
 
-func (p *P) ReplaceContent(new Element, pos uint) {
+func (p *P) ReplaceContent(new Element, pos uint) Element {
 	p.Content[pos] = new
+	return p
 }
