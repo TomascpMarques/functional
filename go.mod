@@ -1,3 +1,3 @@
-module github.com/tomascpmarques/frontline
+module github.com/tomascpmarques/functional-ext
 
 go 1.18
