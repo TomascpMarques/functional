@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/tomascpmarques/functional-ext/lib/extensions"
+	"github.com/tomascpmarques/functional/lib/extensions"
 )
 
 type IterableMap[T comparable, K comparable] struct {
