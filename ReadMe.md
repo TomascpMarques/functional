@@ -1,4 +1,3 @@
-# Frontline
+# Function-ext
 
-Frontline is a golang framework that provides a way to create frontend applications
-written in GO.
+Provides tuples, iterators for maps and slices, and map & slice maping functions.
