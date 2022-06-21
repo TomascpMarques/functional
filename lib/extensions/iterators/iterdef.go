@@ -27,5 +27,6 @@ type IterMap[T comparable, K comparable] interface {
 	Keys() []reflect.Value
 	Map(f extensions.FBack[T, K])
 	Push(value ...extensions.Tuple[T, K])
-	ForEach(f extensions.FBack[T, K]) IterMap[T, K]
+	ForEach(f extensions.F[T])
+	ForEachNew(f extensions.FBack[T, K]) IterMap[T, K]
 }

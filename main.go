@@ -50,7 +50,7 @@ func main() {
 	fmt.Println(lex)
 	fmt.Println()
 	fmt.Println(lex.Get(3))
-	lex.ForEach(func(i int) int {
+	lex.ForEachNew(func(i int) int {
 		return i % 2
 	})
 	lay := itrs.ApplyToNewIterMap(lex, func(i int) string {

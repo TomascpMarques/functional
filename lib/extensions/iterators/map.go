@@ -69,7 +69,13 @@ func (im IterableMap[T, K]) Keys() []reflect.Value {
 	return im.keys
 }
 
-func (im IterableMap[T, K]) ForEach(f extensions.FBack[T, K]) IterMap[T, K] {
+func (im IterableMap[T, K]) ForEach(f extensions.F[T]) {
+	for _, v := range im.keys {
+		f(v.Interface().(T))
+	}
+}
+
+func (im IterableMap[T, K]) ForEachNew(f extensions.FBack[T, K]) IterMap[T, K] {
 	lex := IterableMap[T, K]{new(uint), im.keys, make(map[T]K, len(im.keys))}
 	for _, v := range im.keys {
 		lex.s[v.Interface().(T)] = f(v.Interface().(T))
