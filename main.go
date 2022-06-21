@@ -2,60 +2,71 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 	"strconv"
 
 	"github.com/tomascpmarques/functional-ext/lib/extensions"
-	"github.com/tomascpmarques/functional-ext/lib/extensions/iterators"
+	itrs "github.com/tomascpmarques/functional-ext/lib/extensions/iterators"
 )
 
+type IFace interface {
+	SetSomeField(newValue string)
+	GetSomeField() string
+	Yes() IFace
+}
+
+type Implementation struct {
+	someField string
+}
+
+func (i *Implementation) GetSomeField() string {
+	return i.someField
+}
+
+func (i *Implementation) SetSomeField(newValue string) {
+	i.someField = newValue
+}
+
+func (i *Implementation) Yes() IFace {
+	return i
+}
+
+func Create() *Implementation {
+	return &Implementation{someField: "Hello"}
+}
+
 func main() {
-	x := struct{ i int }{4}
-	y := struct{ i int }{5}
-	z := struct{ i int }{6}
-	lay := iterators.IteratorSlice(x, y, z)
-	lay.Push(struct{ i int }{7})
-	fmt.Println(lay)
-
-	lex := iterators.IteratorSlice(1, 2, 3, 4, 5, 6, 7)
-	lex.Push(8)
-	lex.Push(9)
-	lex.Push(10, 11, 12, 13)
-	fmt.Println(lex)
-	fmt.Println(lex.Get(100))
-	fmt.Println(lex.Get(4))
-	lex.Set(4, 22)
-	fmt.Println(lex)
-
-	ley := []int{1, 2, 3, 4, 5, 6, 7, 8}
-	lej := extensions.ApplyToNewSlice(
-		&ley,
-		func(i int) int {
-			return i * 2
-		},
-	)
-	fmt.Println(lej)
-
-	sum := map[string]int{
-		"a": 1,
-		"b": 2,
-		"c": 3,
-		"d": 4,
-	}
-	sumy := extensions.ApplyToNewMap(
-		&sum,
-		func(i int) string {
-			return strconv.Itoa(i)
-		},
-	)
-	fmt.Println(sumy)
-	fmt.Println(reflect.TypeOf(sumy))
-
-	sey := iterators.IteratorMap(
+	lex := itrs.IteratorMap(
 		extensions.NewTuple(1, 2),
-		extensions.NewTuple(2, 3),
-		extensions.NewTuple(4, 5),
+		extensions.NewTuple(2, 6),
+		extensions.NewTuple(3, 3),
+		extensions.NewTuple(4, 2),
+		extensions.NewTuple(5, 7),
 		extensions.NewTuple(6, 7),
 	)
-	fmt.Println(sey)
+
+	fmt.Println(lex)
+	fmt.Println()
+	lex.Set(2, 8)
+	fmt.Println(lex)
+	fmt.Println()
+	fmt.Println(lex.Get(3))
+	lex.ForEach(func(i int) int {
+		return i % 2
+	})
+	lay := itrs.ApplyToNewIterMap(lex, func(i int) string {
+		return strconv.Itoa(i*2 - 9)
+	})
+	fmt.Printf("\n<->%v \n", lay)
+	fmt.Println()
+	fmt.Println()
+	fmt.Printf("->%v \n", lex)
+	lex.Map(func(i int) int {
+		return i % 2
+	})
+	fmt.Println()
+	fmt.Printf("->%v \n", lex)
+
+	var a IFace = Create()
+	a.SetSomeField("World")
+	fmt.Println(a.GetSomeField())
 }

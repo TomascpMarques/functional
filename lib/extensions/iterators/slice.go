@@ -20,7 +20,7 @@ func IteratorSlice[T comparable](c ...T) *IterableSlice[T] {
 
 /* Default implementation for existing base iterator type */
 func (i IterableSlice[T]) Get(pos int) (T, error) {
-	if pos >= len(i.s) {
+	if pos >= len(i.s) || pos < 0 {
 		// Cant return nil due to generic type T being used
 		return *new(T), fmt.Errorf("index out of bounds: %d (must be >= 0 and <= %d)", pos, i.Len())
 	}
@@ -41,13 +41,13 @@ func (i *IterableSlice[T]) Push(value ...T) {
 
 func (i *IterableSlice[T]) Pop() T {
 	lex := (*i).s[i.Len()-1]
-	i.s = i.s[:i.Len()-2]
+	i.s = i.s[:i.Len()-1]
 	return lex
 }
 
 func (i *IterableSlice[T]) Next() T {
 	temp := i.s[i.count]
-	i.count += i.count % uint(len(i.s))
+	i.count += 1 % uint(len(i.s))
 	return temp
 }
 
