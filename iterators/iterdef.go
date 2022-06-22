@@ -3,7 +3,7 @@ package iterators
 import (
 	"reflect"
 
-	"github.com/tomascpmarques/functional/lib/extensions"
+	extensions "github.com/tomascpmarques/functional"
 )
 
 /* Iterator spec defeiniton */

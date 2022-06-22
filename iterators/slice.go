@@ -3,7 +3,7 @@ package iterators
 import (
 	"fmt"
 
-	"github.com/tomascpmarques/functional/lib/extensions"
+	extensions "github.com/tomascpmarques/functional"
 )
 
 type IterableSlice[T comparable] struct {
